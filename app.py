@@ -35,6 +35,7 @@ def connect_ssh(server):
         ssh.connect(server, port=ssh_port,
                     username=username, password=password)
         ssh_clients[server] = ssh
+        print(f"connect to {server} success!") # 确保只连接一次
     return ssh_clients[server]
 
 
@@ -114,6 +115,8 @@ def get_server_gpu_info(server):
 
 
 user_sorted_data = []
+
+
 def sort_by_gpu_usage(data):
     user_gpu_count = {}
     for server, gpus in data.items():
@@ -146,10 +149,8 @@ def sort_by_gpu_usage(data):
                             "usage_rate": gpu["Usage_rate"]
                         })
         sorted_data.append(user_data)
-        
-    
-    return sorted_data
 
+    return sorted_data
 
 
 def query_user_info():
