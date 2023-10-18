@@ -1,3 +1,4 @@
+from ctypes import util
 from shlex import join
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -61,6 +62,12 @@ def get_server_gpu_info(server):
     _, stdout, _ = ssh.exec_command("nvidia-smi pmon -c 1")
     process_info = stdout.read().decode().strip().split("\n")[2:]
 
+    _, stdout, _ = ssh.exec_command(
+        "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits")
+    utilization_info = stdout.read().decode().strip().split("\n")
+    
+    print(utilization_info)
+
     pid_user_dict = {}
     for line in process_info:
         parts = line.split()
@@ -82,7 +89,8 @@ def get_server_gpu_info(server):
     for idx, info in enumerate(gpu_info):
         user_memory = {}
         name, mem_total, mem_used = info.split(", ")
-        rates = str(int((int(mem_used) / int(mem_total)) * 100))+"%"
+        # rates = str(int((int(mem_used) / int(mem_total)) * 100))+"%"
+        rates = utilization_info[idx]+"%"
         user_data = pid_user_dict.get(str(idx))
         if user_data:
             for u in user_data:
@@ -90,7 +98,7 @@ def get_server_gpu_info(server):
                 current_memory = int(next(iter(u.values())))
                 user_memory[current_user] = user_memory.get(
                     current_user, 0) + current_memory
-                
+
         user = list(user_memory.keys())
         result.append({
             "name": name,
