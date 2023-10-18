@@ -18,7 +18,7 @@
                 </el-table-column>
 
                 <el-table-column prop="Usage_rate" label="Usage Rate"></el-table-column>
-                <el-table-column prop="user" label="User"></el-table-column>
+                <el-table-column prop="user_display" label="User"></el-table-column>
             </el-table>
         </div>
     </div>

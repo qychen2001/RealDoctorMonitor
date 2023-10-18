@@ -1,7 +1,5 @@
-from shlex import join
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from hamcrest import empty
 import paramiko
 import uvicorn
 import threading
@@ -69,37 +67,19 @@ def get_server_gpu_info(server):
             if pid != '-':
                 _, user_out, _ = ssh.exec_command(f"ps -o user= -p {pid}")
                 user = user_out.read().decode().strip()
-                _, memory_out, _ = ssh.exec_command(
-                    f"nvidia-smi -i {gpu_id} --query-compute-apps=pid,used_memory --format=csv | grep {pid}")
-                memory_info = memory_out.read().decode().strip().split("\n")[
-                    0].split(", ")[1].split(" ")[0]
-                if gpu_id not in pid_user_dict:
-                    pid_user_dict[gpu_id] = [{user: memory_info}]
-                else:
-                    pid_user_dict[gpu_id].append({user: memory_info})
-    result = []
+                pid_user_dict[gpu_id] = user
 
+    result = []
     for idx, info in enumerate(gpu_info):
-        user_memory = {}
         name, mem_total, mem_used = info.split(", ")
         rates = str(int((int(mem_used) / int(mem_total)) * 100))+"%"
-        user_data = pid_user_dict.get(str(idx))
-        if user_data:
-            for u in user_data:
-                current_user = next(iter(u.keys()))
-                current_memory = int(next(iter(u.values())))
-                user_memory[current_user] = user_memory.get(
-                    current_user, 0) + current_memory
-                
-        user = list(user_memory.keys())
+        user = pid_user_dict.get(str(idx), "None")
         result.append({
             "name": name,
             "memory_total": mem_total,
             "memory_used": mem_used,
             "Usage_rate": rates,
-            "user": user,
-            "user_display": ", ".join(user) if len(user) != 0 else "None",
-            "user_memory": user_memory if len(user) != 0 else None
+            "user": user
         })
     return result
 
@@ -109,9 +89,8 @@ def sort_by_gpu_usage(data):
     for server, gpus in data.items():
         for gpu in gpus:
             user = gpu["user"]
-            if len(user) != 0:
-                for u in user:
-                    user_gpu_count[u] = user_gpu_count.get(u, 0) + 1
+            if user != "None":
+                user_gpu_count[user] = user_gpu_count.get(user, 0) + 1
 
     # 根据使用的显卡数量对用户进行排序
     sorted_users = sorted(user_gpu_count.keys(),
@@ -126,15 +105,14 @@ def sort_by_gpu_usage(data):
         }
         for server, gpus in data.items():
             for gpu in gpus:
-                for u in gpu["user"]:
-                    if u == user:
-                        user_data["details"].append({
-                            "server": server,
-                            "gpu_name": gpu["name"],
-                            "memory_total": gpu["memory_total"],
-                            "memory_used": gpu["user_memory"][u],
-                            "Usage_rate": gpu["Usage_rate"]
-                        })
+                if gpu["user"] == user:
+                    user_data["details"].append({
+                        "server": server,
+                        "gpu_name": gpu["name"],
+                        "memory_total": gpu["memory_total"],
+                        "memory_used": gpu["memory_used"],
+                        "Usage_rate": gpu["Usage_rate"]
+                    })
         sorted_data.append(user_data)
     return sorted_data
 
