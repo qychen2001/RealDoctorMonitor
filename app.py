@@ -50,11 +50,11 @@ results = {}
 
 def query_gpu_info():
     while True:
-        results.clear()
+        # results.clear()
         # 每次更新之前清空所有的状态
         for server in server_ips:
             results[server] = get_server_gpu_info(server)
-        time.sleep(3)  # 每60秒查询一次
+        time.sleep(0.1)  # 每60秒查询一次
 
 
 def get_server_gpu_info(server):
@@ -113,6 +113,7 @@ def get_server_gpu_info(server):
     return result
 
 
+user_sorted_data = []
 def sort_by_gpu_usage(data):
     user_gpu_count = {}
     for server, gpus in data.items():
@@ -145,7 +146,17 @@ def sort_by_gpu_usage(data):
                             "usage_rate": gpu["Usage_rate"]
                         })
         sorted_data.append(user_data)
+        
+    
     return sorted_data
+
+
+
+def query_user_info():
+    global user_sorted_data
+    while True:
+        user_sorted_data = sort_by_gpu_usage(results)
+        time.sleep(0.1)
 
 
 @app.get("/sort-by-user")

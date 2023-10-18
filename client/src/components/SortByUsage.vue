@@ -2,7 +2,7 @@
     <div class="container">
         <el-table :data="sortedItems" style="width: 100%" default-expand-all>
             <el-table-column prop="user" label="姓名"></el-table-column>
-            <el-table-column prop="gpu_count" label="使用数量" sortable></el-table-column>
+            <el-table-column prop="gpu_count" label="使用数量"></el-table-column>
 
             <el-table-column type="expand">
                 <template #default="props">
@@ -52,7 +52,7 @@ export default {
 
         onMounted(() => {
             fetchData();
-            intervalId = setInterval(fetchData, 30000);
+            intervalId = setInterval(fetchData, 1000);
         });
 
         onBeforeUnmount(() => {
