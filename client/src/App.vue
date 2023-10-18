@@ -5,8 +5,9 @@
       <div class="site-title">
         睿医网信办
       </div>
-      <p>这个项目由<a href="https://qiyuan-chen.github.io/">陈启源</a>开发。感谢杜邦的支持。代码已经在<a href="https://github.com/qiyuan-chen/RealDoctorMonitor">Github</a>开源，欢迎大家提出建议和改进！</p>
-      <el-menu mode="horizontal">
+      <p class="site-p">这个项目由<a href="https://qiyuan-chen.github.io/">陈启源</a>开发。感谢杜邦的支持。代码已经在<a
+          href="https://github.com/qiyuan-chen/RealDoctorMonitor">Github</a>开源，欢迎大家提出建议和改进！</p>
+      <el-menu mode="horizontal" :default-active="'1'">
         <el-menu-item index="1" @click="activeComponent = 'gpu-monitor'">各服务器GPU占用情况</el-menu-item>
         <el-menu-item index="2" @click="activeComponent = 'sort-by-usage'">按使用量排序</el-menu-item>
       </el-menu>
@@ -51,9 +52,10 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: white;
-  height: 80px;
+  background-color: white; /* 确保背景颜色为不透明的白色 */
+  height: 120px;
 }
+
 
 .site-title {
   font-size: 30px;
@@ -70,6 +72,10 @@ export default {
 }
 
 .content-with-padding {
-  padding-top: 30px;
+  padding-top: 40px;
+}
+
+.site-p {
+  background-color: white;
 }
 </style>

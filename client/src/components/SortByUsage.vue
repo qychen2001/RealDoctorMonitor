@@ -52,7 +52,7 @@ export default {
 
         onMounted(() => {
             fetchData();
-            intervalId = setInterval(fetchData, 60000);
+            intervalId = setInterval(fetchData, 30000);
         });
 
         onBeforeUnmount(() => {

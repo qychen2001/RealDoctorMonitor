@@ -22,12 +22,10 @@ app.add_middleware(
 server_ips = ['192.168.0.240', '192.168.0.242',
               '192.168.0.243', '192.168.0.248', '192.168.0.35']
 ssh_port = 18518
-username = '' # 监控服务器的用户名
-password = '' # 监控服务器的密码
+username = 'chenqiyuan'  # 监控服务器的用户名
+password = 'CQYcqy20011012'  # 监控服务器的密码
 
 ssh_clients = {server: None for server in server_ips}
-
-results = {}
 
 
 def connect_ssh(server):
@@ -47,11 +45,16 @@ def disconnect_ssh():
             ssh.close()
 
 
+results = {}
+
+
 def query_gpu_info():
     while True:
+        results.clear()
+        # 每次更新之前清空所有的状态
         for server in server_ips:
             results[server] = get_server_gpu_info(server)
-        time.sleep(1)  # 每60秒查询一次
+        time.sleep(3)  # 每60秒查询一次
 
 
 def get_server_gpu_info(server):
@@ -65,8 +68,6 @@ def get_server_gpu_info(server):
     _, stdout, _ = ssh.exec_command(
         "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits")
     utilization_info = stdout.read().decode().strip().split("\n")
-    
-    print(utilization_info)
 
     pid_user_dict = {}
     for line in process_info:
