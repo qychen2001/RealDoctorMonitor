@@ -3,22 +3,22 @@
         <div v-for="(gpus, ip) in gpuData" :key="ip">
             <h3>{{ ip }}</h3>
             <el-table :data="gpus" style="width: 100%">
-                <el-table-column prop="name" label="GPU Name"></el-table-column>
+                <el-table-column prop="name" label="GPU型号"></el-table-column>
 
-                <el-table-column label="Total Memory">
+                <el-table-column label="总显存">
                     <template #default="scope">
                         {{ formatMemory(scope.row.memory_total) }}
                     </template>
                 </el-table-column>
 
-                <el-table-column label="Memory Used">
+                <el-table-column label="已用显存">
                     <template #default="scope">
                         {{ formatMemory(scope.row.memory_used) }}
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="Usage_rate" label="Usage Rate"></el-table-column>
-                <el-table-column prop="user_display" label="User"></el-table-column>
+                <el-table-column prop="Usage_rate" label="使用率"></el-table-column>
+                <el-table-column prop="user_display" label=""></el-table-column>
             </el-table>
         </div>
     </div>

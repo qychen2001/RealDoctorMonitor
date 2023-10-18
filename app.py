@@ -133,7 +133,7 @@ def sort_by_gpu_usage(data):
                             "gpu_name": gpu["name"],
                             "memory_total": gpu["memory_total"],
                             "memory_used": gpu["user_memory"][u],
-                            "Usage_rate": gpu["Usage_rate"]
+                            "usage_rate": gpu["Usage_rate"]
                         })
         sorted_data.append(user_data)
     return sorted_data

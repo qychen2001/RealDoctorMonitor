@@ -22,7 +22,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column prop="Usage_rate" label="使用率"></el-table-column>
+                        <el-table-column prop="usage_rate" label="使用率"></el-table-column>
                     </el-table>
                 </template>
             </el-table-column>
@@ -76,7 +76,7 @@ export default {
 
 <style scoped>
 .container {
-    width: 70%;
+    width: 80%;
     margin: 40px auto;
     padding: 20px;
     border: 1px solid #ebeef5;
