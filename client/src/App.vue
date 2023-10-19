@@ -5,7 +5,7 @@
       <div class="site-title">
         睿医网信办
       </div>
-      <p class="site-p">这个项目由<a href="https://qiyuan-chen.github.io/">陈启源</a>开发。感谢杜邦的支持。代码已经在<a
+      <p class="site-p">这个项目由<a href="https://qiyuan-chen.github.io/">陈启源</a>开发。感谢杜邦的支持。受限于后端实现与资源部署限制，现在版本的更新较慢（大概五秒更新一次）。代码已经在<a
           href="https://github.com/qiyuan-chen/RealDoctorMonitor">Github</a>开源，欢迎大家提出建议和改进！</p>
       <el-menu mode="horizontal" :default-active="'1'">
         <el-menu-item index="1" @click="activeComponent = 'gpu-monitor'">各服务器GPU占用情况</el-menu-item>
