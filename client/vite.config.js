@@ -13,9 +13,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  server: {
-    proxy: {
-      '/gpu-monitor': 'http://localhost:8000'
-    }
+  build: {
+    chunkSizeWarningLimit: 1000 // 1000 kB
   }
 })
