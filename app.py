@@ -29,8 +29,8 @@ app.add_middleware(
 server_ips = ['192.168.0.240', '192.168.0.242',
               '192.168.0.243', '192.168.0.248', '192.168.0.35']
 ssh_port = 18518
-username = 'chenqiyuan'  # 监控服务器的用户名
-password = 'CQYcqy20011012'  # 监控服务器的密码
+username = ''  # 监控服务器的用户名
+password = ''  # 监控服务器的密码
 
 ssh_clients = {server: None for server in server_ips}
 

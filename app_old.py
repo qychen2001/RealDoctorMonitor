@@ -19,8 +19,8 @@ app.add_middleware(
 server_ips = ['192.168.0.240', '192.168.0.242',
               '192.168.0.243', '192.168.0.248', '192.168.0.35']
 ssh_port = 18518
-username = 'chenqiyuan'
-password = 'CQYcqy20011012'
+username = ''
+password = ''
 
 ssh_clients = {server: None for server in server_ips}
 
